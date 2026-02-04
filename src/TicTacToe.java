@@ -14,6 +14,7 @@ import java.util.Scanner;
 
 public class TicTacToe
 {
+    public static final int kSize = 3;
     /** Board Markers **/
     public static final String X_MARKER = "X";
     public static final String O_MARKER = "O";
@@ -35,6 +36,8 @@ public class TicTacToe
     private Square[][] board;
     private boolean isGameOver;
 
+    private TicTacToeViewer window;
+
     /**
      * Constructor which initialized the board with BLANKs.
      * The winner is also initialized to BLANK.
@@ -42,13 +45,17 @@ public class TicTacToe
      * The view is initialized with this TicTacToe object
      */
     public TicTacToe() {
+        this.window = new TicTacToeViewer(this);
         // Initialize Squares in the board
-        this.board = new Square[3][3];
-        for(int row = 0; row < this.board.length; row++) {
-            for(int col = 0; col< this.board[row].length; col++) {
-                this.board[row][col] = new Square(row, col);
+        this.board = new Square[kSize][kSize];
+        for(int row = 0; row < kSize; row++) {
+            for(int col = 0; col < kSize; col++) {
+                this.board[row][col] = new Square(this, row, col);
+                ;
             }
         }
+
+        window.repaint();
 
         // Initialize winning stats variables
         this.isGameOver = false;
@@ -56,6 +63,10 @@ public class TicTacToe
         this.winner = BLANK;
         this.winIndex = -1;
         this.winDirection = -1;
+    }
+
+    public String getValue(int row, int col) {
+        return board[row][col].getMarker();
     }
 
     /******************** Methods You May Find Helpful ********************/
@@ -119,6 +130,7 @@ public class TicTacToe
             } else {
                 System.out.println("That space is taken, or you entered an invalid row/col");
             }
+            window.repaint();
         }
 
         this.printBoard();

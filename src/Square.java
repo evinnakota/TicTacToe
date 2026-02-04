@@ -1,3 +1,8 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.lang.reflect.Array;
+
 /**
  * A class written to support the TicTacToe Game.
  *
@@ -17,19 +22,23 @@ public class Square {
     private int col;
     private boolean isWinningSquare;
 
+
     /**
      * Constructor to initialize one Square of the
      * TicTacToe board
      * @param row the row the square is in
      * @param col the column the square is in
      */
-    public Square(int row, int col) {
+    public Square(TicTacToe game, int row, int col) {
         this.row = row;
         this.col = col;
-
-        this.marker = TicTacToe.BLANK;
-        this.isWinningSquare = false;
+        marker = TicTacToe.BLANK;
+        isWinningSquare = false;
     }
+
+
+
+
 
     /******************** Getters and Setters ********************/
     public String getMarker() {
@@ -43,6 +52,11 @@ public class Square {
     public void setWinningSquare() {
         this.isWinningSquare = true;
     }
+
+    public boolean isWinningSquare() {
+        return isWinningSquare;
+    }
+
 
     /**
      * Checks if the square has the BLANK marker
