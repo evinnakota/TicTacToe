@@ -9,19 +9,19 @@ public class TicTacToeViewer extends JFrame {
     // TODO: Complete this class
     private TicTacToe game;
 
-    private Image xImage;
-    private Image oImage;
+    public Image xImage;
+    public Image oImage;
 
-    private static final int SIZE = 100;
-    private static final int START_X = 120;
-    private static final int START_Y = 60;
+    public static final int SIZE = 120; // pixel size of one square
+    public static final int TOP = 25; // pixel height of title bar
 
     public TicTacToeViewer(TicTacToe game) {
         this.game = game;
 
 
         setTitle("TicTacToe");
-        setSize(500, 550);
+        setSize((2+TicTacToe.SIZE)*SIZE,
+                (2+TicTacToe.SIZE)*SIZE + TOP);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         xImage = new ImageIcon("Resources/X.png").getImage();
@@ -35,54 +35,40 @@ public class TicTacToeViewer extends JFrame {
         g.setColor(Color.RED);
         g.setFont(new Font("Arial", Font.BOLD, 14));
 
+        // numbers on axes
         for (int i = 0; i < 3; i++) {
-            g.drawString("" + i, 160 + i * SIZE, 50);
-            g.drawString("" + i, 90, 135 + i * SIZE);
+            g.drawString("" + i, SIZE*i + SIZE*3/2, SIZE - 10 + TOP);
+            g.drawString("" + i, SIZE - 20, SIZE*i + SIZE*3/2 + TOP + 5);
         }
 
         Square[][] board = game.getBoard();
 
         for (int row = 0; row < 3; row++) {
             for (int col = 0; col < 3; col++) {
-                int x = START_X + col * SIZE;
-                int y = START_Y + row * SIZE;
-
-                Square s = board[row][col];
-
-                // Winning highlight
-                if (s.isWinningSquare()) {
-                    g.setColor(Color.GREEN);
-                    g.fillRect(x, y, SIZE, SIZE);
-                }
-
-                // Square border
-                g.setColor(Color.BLACK);
-                g.drawRect(x, y, SIZE, SIZE);
-
-                // Marker image
-                if (s.getMarker().equals(TicTacToe.X_MARKER)) {
-                    g.drawImage(xImage, x + 10, y + 10, 80, 80, null);
-                } else if (s.getMarker().equals(TicTacToe.O_MARKER)) {
-                    g.drawImage(oImage, x + 10, y + 10, 80, 80, null);
-                }
+                board[row][col].draw(g);
             }
         }
-
-
 
         if (!game.getGameOver()) return;
 
         g.setColor(Color.BLACK);
-        g.setFont(new Font("Arial", Font.BOLD, 24));
+        final int textSize = Math.min(24,SIZE);
+        g.setFont(new Font("Arial", Font.BOLD, textSize));
 
         if (game.checkTie()) {
-            g.drawString("It's a Tie!", 160, 500);
+            g.drawString("It's a Tie!", 5*SIZE/2-textSize*2, (9*SIZE)/2 + TOP + textSize/3);
+            xImage = new ImageIcon("Resources/csduck.png").getImage();
+            oImage = new ImageIcon("Resources/menlo.png").getImage();
+            for (Square[] row : board) {
+                for (Square s : row) {
+                    s.draw(g);
+                }
+            }
         } else {
-            g.drawString(game.getWinner() + " Wins", 170, 500);
+            g.drawString(game.getWinner() + " Wins", 5*SIZE/2-textSize*3/2, (9*SIZE)/2 + TOP + textSize/3);
         }
     }
-
-    }
+}
 
 
 

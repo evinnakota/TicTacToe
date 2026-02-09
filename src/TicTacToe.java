@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class TicTacToe
 {
-    public static final int kSize = 3;
+    public static final int SIZE = 3;
     /** Board Markers **/
     public static final String X_MARKER = "X";
     public static final String O_MARKER = "O";
@@ -47,11 +47,10 @@ public class TicTacToe
     public TicTacToe() {
         this.window = new TicTacToeViewer(this);
         // Initialize Squares in the board
-        this.board = new Square[kSize][kSize];
-        for(int row = 0; row < kSize; row++) {
-            for(int col = 0; col < kSize; col++) {
-                this.board[row][col] = new Square(this, row, col);
-                ;
+        this.board = new Square[SIZE][SIZE];
+        for(int row = 0; row < SIZE; row++) {
+            for(int col = 0; col < SIZE; col++) {
+                this.board[row][col] = new Square(window, row, col);
             }
         }
 
@@ -285,8 +284,8 @@ public class TicTacToe
         int row = 0;
         for(Square[] array : this.board) {
             System.out.print(row + " ");
-            for(Square item : array) {
-                System.out.print(item + " ");
+            for(Square num : array) {
+                System.out.print(num + " ");
 
             }
             row++;
